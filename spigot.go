@@ -27,9 +27,8 @@ package spigot
 */
 
 func Pi(n int) <-chan int {
-	n += 1
 	c := make(chan int)
-	go func() {
+	go func(n int) {
 		l := 1 + 10*n/3
 		a := make([]int, l)
 		b := make([]int, l)
@@ -49,7 +48,7 @@ func Pi(n int) <-chan int {
 			a[0] %= 10
 		}
 		close(c)
-	}()
+	}(n + 1)
 	return predigit(c)
 }
 
