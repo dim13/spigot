@@ -32,7 +32,7 @@ package spigot
 func Pi(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
-		l := 1 + 10*n/3
+		l := 10*n/3 + 1
 		a := make([]int, l)
 		b := make([]int, l)
 		for i := 0; i < l; i++ {
@@ -101,7 +101,7 @@ func predigit(in <-chan int) <-chan int {
 func E(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
-		l := 1 + n
+		l := n + 1
 		a := make([]int, l)
 		b := make([]int, l)
 		for i := 0; i < l; i++ {
