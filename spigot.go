@@ -122,5 +122,5 @@ func E(n int) <-chan int {
 		}
 		close(c)
 	}(n + 1)
-	return predigit(c)
+	return c
 }
