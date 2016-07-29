@@ -29,6 +29,7 @@ package spigot
 
 */
 
+// Pi returns n digitgs of Pi
 func Pi(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
@@ -98,6 +99,7 @@ func predigit(in <-chan int) <-chan int {
       Output the next digit: The ﬁnal quotient is the next digit of e.
 */
 
+// E returns n digits of E
 func E(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
