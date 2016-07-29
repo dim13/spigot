@@ -1,7 +1,5 @@
 package spigot
 
-import "fmt"
-
 /*
    1. Initialize: Let A = (2, 2, 2, 2,... ,2) be an array of length [10n/3]+1.
 
@@ -81,11 +79,4 @@ func predigit(in <-chan int) <-chan int {
 		close(c)
 	}()
 	return c
-}
-
-func main() {
-	for i := range Spigot(60) {
-		fmt.Print(i)
-	}
-	fmt.Println("")
 }
