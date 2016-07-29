@@ -79,3 +79,30 @@ func predigit(in <-chan int) <-chan int {
 	}()
 	return c
 }
+
+func E(n int) <-chan int {
+	c := make(chan int)
+	go func(n int) {
+		l := 1 + n
+		a := make([]int, l)
+		b := make([]int, l)
+		for i := 0; i < l; i++ {
+			a[i] = 1
+			b[i] = i + 1
+		}
+		a[0] = 2
+		for k := 0; k < n; k++ {
+			for i := range a {
+				a[i] *= 10
+			}
+			for i := len(a) - 1; i > 0; i-- {
+				a[i-1] += a[i] / b[i]
+				a[i] %= b[i]
+			}
+			c <- a[0] / 10
+			a[0] %= 10
+		}
+		close(c)
+	}(n + 1)
+	return predigit(c)
+}
