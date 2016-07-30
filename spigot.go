@@ -35,6 +35,7 @@ import "fmt"
 func Pi(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
+		defer close(c)
 		l := 10*n/3 + 1
 		a := make([]int, l)
 		b := make([]int, l)
@@ -52,7 +53,6 @@ func Pi(n int) <-chan int {
 			c <- a[0] / 10
 			a[0] %= 10
 		}
-		close(c)
 	}(n + 1)
 	return predigit(c)
 }
@@ -60,6 +60,7 @@ func Pi(n int) <-chan int {
 func predigit(in <-chan int) <-chan int {
 	c := make(chan int)
 	go func() {
+		defer close(c)
 		var pre []int
 		for i := range in {
 			switch i {
@@ -80,7 +81,6 @@ func predigit(in <-chan int) <-chan int {
 		for _, v := range pre {
 			c <- v
 		}
-		close(c)
 	}()
 	return c
 }
@@ -104,6 +104,7 @@ func predigit(in <-chan int) <-chan int {
 func E(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
+		defer close(c)
 		l := n + 1
 		a := make([]int, l)
 		b := make([]int, l)
@@ -122,7 +123,6 @@ func E(n int) <-chan int {
 			c <- a[0] / 10
 			a[0] %= 10
 		}
-		close(c)
 	}(n + 1)
 	return c
 }
