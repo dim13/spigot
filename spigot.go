@@ -129,6 +129,7 @@ func E(n int) <-chan int {
 	return c
 }
 
+// Print digits from channel
 func Print(n <-chan int) {
 	for v := range n {
 		fmt.Print(v)
