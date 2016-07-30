@@ -1,3 +1,4 @@
+// Package spigot implements Spigot algorithm for Pi and E
 package spigot
 
 import "fmt"
