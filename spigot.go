@@ -1,5 +1,7 @@
 package spigot
 
+import "fmt"
+
 /*
    1. Initialize: Let A = (2, 2, 2, 2,... ,2) be an array of length
       [10n/3]+1.
@@ -125,4 +127,11 @@ func E(n int) <-chan int {
 		close(c)
 	}(n + 1)
 	return c
+}
+
+func Print(n <-chan int) {
+	for v := range n {
+		fmt.Print(v)
+	}
+	fmt.Println("")
 }
