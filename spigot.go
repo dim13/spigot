@@ -43,10 +43,9 @@ func Pi(n int) <-chan int {
 			b[i] = 2*i + 1
 		}
 		for k := 0; k < n; k++ {
-			for i := range a {
-				a[i] *= 10
-			}
+			a[len(a)-1] *= 10
 			for i := len(a) - 1; i > 0; i-- {
+				a[i-1] *= 10
 				a[i-1] += i * (a[i] / b[i])
 				a[i] %= b[i]
 			}
@@ -114,10 +113,9 @@ func E(n int) <-chan int {
 		}
 		a[0] = 2
 		for k := 0; k < n; k++ {
-			for i := range a {
-				a[i] *= 10
-			}
+			a[len(a)-1] *= 10
 			for i := len(a) - 1; i > 0; i-- {
+				a[i-1] *= 10
 				a[i-1] += a[i] / b[i]
 				a[i] %= b[i]
 			}
