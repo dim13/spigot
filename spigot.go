@@ -31,7 +31,7 @@ import "fmt"
 
 */
 
-// Pi returns n digitgs of Pi
+// Pi returns n digits of Pi
 func Pi(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
