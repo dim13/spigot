@@ -37,9 +37,8 @@ func Pi(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
 		defer close(c)
-		l := 10*n/3 + 1
-		a := make([]int, l)
-		for i := 0; i < l; i++ {
+		a := make([]int, 10*n/3+1)
+		for i := 0; i < len(a); i++ {
 			a[i] = 2
 		}
 		for k := 0; k < n; k++ {
@@ -105,9 +104,8 @@ func E(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
 		defer close(c)
-		l := n + 1
-		a := make([]int, l)
-		for i := 0; i < l; i++ {
+		a := make([]int, n+1)
+		for i := 0; i < len(a); i++ {
 			a[i] = 1
 		}
 		a[0] = 2
