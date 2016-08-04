@@ -39,17 +39,16 @@ func Pi(n int) <-chan int {
 		defer close(c)
 		l := 10*n/3 + 1
 		a := make([]int, l)
-		b := make([]int, l)
 		for i := 0; i < l; i++ {
 			a[i] = 2
-			b[i] = 2*i + 1
 		}
 		for k := 0; k < n; k++ {
 			a[len(a)-1] *= 10
 			for i := len(a) - 1; i > 0; i-- {
+				q := 2*i + 1
 				a[i-1] *= 10
-				a[i-1] += i * (a[i] / b[i])
-				a[i] %= b[i]
+				a[i-1] += i * (a[i] / q)
+				a[i] %= q
 			}
 			c <- a[0] / 10
 			a[0] %= 10
@@ -108,18 +107,17 @@ func E(n int) <-chan int {
 		defer close(c)
 		l := n + 1
 		a := make([]int, l)
-		b := make([]int, l)
 		for i := 0; i < l; i++ {
 			a[i] = 1
-			b[i] = i + 1
 		}
 		a[0] = 2
 		for k := 0; k < n; k++ {
 			a[len(a)-1] *= 10
 			for i := len(a) - 1; i > 0; i-- {
+				q := i + 1
 				a[i-1] *= 10
-				a[i-1] += a[i] / b[i]
-				a[i] %= b[i]
+				a[i-1] += a[i] / q
+				a[i] %= q
 			}
 			c <- a[0] / 10
 			a[0] %= 10
