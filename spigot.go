@@ -33,12 +33,11 @@ import "fmt"
 */
 
 // alloc allocates initial slice of size n
-func alloc(head, tail, n int) []int {
+func alloc(n, v int) []int {
 	a := make([]int, n)
 	for i := range a {
-		a[i] = tail
+		a[i] = v
 	}
-	a[0] = head
 	return a
 }
 
@@ -46,7 +45,7 @@ func alloc(head, tail, n int) []int {
 func Pi(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
-		a := alloc(2, 2, 10*n/3+1)
+		a := alloc(10*n/3+1, 2)
 		for k := 0; k < n; k++ {
 			a[len(a)-1] *= 10
 			for i := len(a) - 1; i > 0; i-- {
@@ -110,7 +109,8 @@ func predigit(in <-chan int) <-chan int {
 func E(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
-		a := alloc(2, 1, n+1)
+		a := alloc(n+1, 1)
+		a[0] = 2
 		for k := 0; k < n; k++ {
 			a[len(a)-1] *= 10
 			for i := len(a) - 1; i > 0; i-- {
