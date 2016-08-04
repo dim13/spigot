@@ -85,7 +85,7 @@ func predigit(in <-chan int) <-chan int {
 }
 
 /*
-   1. Initialize: Let the ﬁrst digit be 2 and initialize an array
+   1. Initialize: Let the first digit be 2 and initialize an array
       A of length n + 1 to (1, 1, 1, . . . , 1).
 
    2. Repeat n − 1 times:
