@@ -32,14 +32,13 @@ import "fmt"
 
 */
 
-// alloc allocates initial slice of size n with first value of w
-// and other with v
-func alloc(w, v, n int) []int {
+// alloc allocates initial slice of size n
+func alloc(head, tail, n int) []int {
 	a := make([]int, n)
 	for i := range a {
-		a[i] = v
+		a[i] = tail
 	}
-	a[0] = w
+	a[0] = head
 	return a
 }
 
