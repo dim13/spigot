@@ -98,7 +98,7 @@ func predigit(in <-chan int) <-chan int {
       ith entry of A modulo i + 1, carrying the quotient one place
       left.
 
-      Output the next digit: The ﬁnal quotient is the next digit of e.
+      Output the next digit: The final quotient is the next digit of e.
 */
 
 // E returns n digits of E
