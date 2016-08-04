@@ -32,15 +32,22 @@ import "fmt"
 
 */
 
+// alloc allocates initial slice of size n with first value of w
+// and other with v
+func alloc(w, v, n int) []int {
+	a := make([]int, n)
+	for i := range a {
+		a[i] = v
+	}
+	a[0] = w
+	return a
+}
+
 // Pi returns n digits of Pi
 func Pi(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
-		defer close(c)
-		a := make([]int, 10*n/3+1)
-		for i := 0; i < len(a); i++ {
-			a[i] = 2
-		}
+		a := alloc(2, 2, 10*n/3+1)
 		for k := 0; k < n; k++ {
 			a[len(a)-1] *= 10
 			for i := len(a) - 1; i > 0; i-- {
@@ -52,6 +59,7 @@ func Pi(n int) <-chan int {
 			c <- a[0] / 10
 			a[0] %= 10
 		}
+		close(c)
 	}(n + 1)
 	return predigit(c)
 }
@@ -59,7 +67,6 @@ func Pi(n int) <-chan int {
 func predigit(in <-chan int) <-chan int {
 	c := make(chan int)
 	go func() {
-		defer close(c)
 		var pre []int
 		for i := range in {
 			switch i {
@@ -80,6 +87,7 @@ func predigit(in <-chan int) <-chan int {
 		for _, v := range pre {
 			c <- v
 		}
+		close(c)
 	}()
 	return c
 }
@@ -103,12 +111,7 @@ func predigit(in <-chan int) <-chan int {
 func E(n int) <-chan int {
 	c := make(chan int)
 	go func(n int) {
-		defer close(c)
-		a := make([]int, n+1)
-		for i := 0; i < len(a); i++ {
-			a[i] = 1
-		}
-		a[0] = 2
+		a := alloc(2, 1, n+1)
 		for k := 0; k < n; k++ {
 			a[len(a)-1] *= 10
 			for i := len(a) - 1; i > 0; i-- {
@@ -120,6 +123,7 @@ func E(n int) <-chan int {
 			c <- a[0] / 10
 			a[0] %= 10
 		}
+		close(c)
 	}(n + 1)
 	return c
 }
