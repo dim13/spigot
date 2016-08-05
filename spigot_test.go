@@ -18,12 +18,12 @@ func ExampleE() {
 
 func BenchmarkPi(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Pi(N)
+		Drain(Pi(N))
 	}
 }
 
 func BenchmarkE(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		E(N)
+		Drain(E(N))
 	}
 }

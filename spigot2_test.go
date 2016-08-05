@@ -16,12 +16,12 @@ func ExampleE2() {
 
 func BenchmarkPi2(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Pi2(N)
+		Drain(Pi2(N))
 	}
 }
 
 func BenchmarkE2(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		E2(N)
+		Drain(E2(N))
 	}
 }

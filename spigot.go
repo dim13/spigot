@@ -134,3 +134,8 @@ func Print(n <-chan int) {
 	}
 	fmt.Println("")
 }
+
+func Drain(c <-chan int) {
+	for _ = range c {
+	}
+}
