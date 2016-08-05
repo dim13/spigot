@@ -1,6 +1,6 @@
 package spigot
 
-func filter(a, r, q int, carry chan int) chan int {
+func filter(a, r, q int, carry <-chan int) <-chan int {
 	c := make(chan int)
 	go func() {
 		for cr := range carry {
@@ -14,7 +14,7 @@ func filter(a, r, q int, carry chan int) chan int {
 	return c
 }
 
-func zero(n int) chan int {
+func zero(n int) <-chan int {
 	c := make(chan int)
 	go func() {
 		for i := 0; i < n; i++ {
