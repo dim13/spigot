@@ -136,6 +136,6 @@ func Print(n <-chan int) {
 }
 
 func Drain(c <-chan int) {
-	for _ = range c {
+	for range c {
 	}
 }
