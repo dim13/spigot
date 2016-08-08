@@ -135,6 +135,7 @@ func Print(n <-chan int) {
 	fmt.Println("")
 }
 
+// Drain values from channel
 func Drain(c <-chan int) {
 	for range c {
 	}
