@@ -74,7 +74,7 @@ func predigit(in <-chan int) <-chan int {
 				for _, v := range pre {
 					c <- (v + 1) % 10
 				}
-				pre = []int{0}
+				pre = []int{i % 10}
 			default:
 				for _, v := range pre {
 					c <- v
@@ -135,6 +135,7 @@ func Print(n <-chan int) {
 	fmt.Println("")
 }
 
+// Drain values from channel
 func Drain(c <-chan int) {
 	for range c {
 	}
