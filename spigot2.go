@@ -1,7 +1,7 @@
 package spigot
 
 func spigot(a, r, q int, carry <-chan int) <-chan int {
-	c := make(chan int, 100)
+	c := make(chan int, 10)
 	go func() {
 		defer close(c)
 		for cr := range carry {
