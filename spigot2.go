@@ -1,5 +1,7 @@
 package spigot
 
+// daisy chain spigot
+
 func spigot(a, r, q int, carry <-chan int) <-chan int {
 	c := make(chan int, 10)
 	go func() {
