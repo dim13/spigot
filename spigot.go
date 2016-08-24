@@ -1,8 +1,6 @@
 // Package spigot implements Spigot algorithm for Pi and E
 package spigot
 
-import "fmt"
-
 func zero(n int) <-chan int {
 	c := make(chan int)
 	go func() {
@@ -111,18 +109,4 @@ func E(n int) <-chan int {
 		c = spigot(1, 1, i+1, c)
 	}
 	return spigot(2, 1, 10, c)
-}
-
-// Print digits from channel
-func Print(n <-chan int) {
-	for v := range n {
-		fmt.Print(v)
-	}
-	fmt.Println("")
-}
-
-// Drain values from channel
-func Drain(c <-chan int) {
-	for range c {
-	}
 }

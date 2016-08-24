@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 
 	"dim13.org/spigot"
 )
@@ -9,5 +10,8 @@ import (
 func main() {
 	N := flag.Int("n", 60, "number of digits")
 	flag.Parse()
-	spigot.Print(spigot.E(*N))
+	for v := range spigot.E(*N) {
+		fmt.Print(v)
+	}
+	fmt.Println("")
 }
