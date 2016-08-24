@@ -2,8 +2,6 @@ package spigot
 
 import "testing"
 
-const N = 1000
-
 func ExamplePi() {
 	Print(Pi(N))
 	// Output:

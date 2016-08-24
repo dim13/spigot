@@ -6,16 +6,8 @@ import (
 	"dim13.org/spigot"
 )
 
-var (
-	N = flag.Int("n", 60, "number of digits")
-	C = flag.Bool("c", false, "concurent")
-)
-
 func main() {
+	N := flag.Int("n", 60, "number of digits")
 	flag.Parse()
-	if *C {
-		spigot.Print(spigot.E2(*N))
-	} else {
-		spigot.Print(spigot.E(*N))
-	}
+	spigot.Print(spigot.E(*N))
 }

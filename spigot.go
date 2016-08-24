@@ -1,10 +1,60 @@
 // Package spigot implements Spigot algorithm for Pi and E
 package spigot
 
-// array spigot
-
 import "fmt"
 
+func predigit(in <-chan int) <-chan int {
+	c := make(chan int)
+	drain := func(pre []int, i int) {
+		for _, v := range pre {
+			c <- (v + i) % 10
+		}
+	}
+	go func() {
+		var pre []int
+		for i := range in {
+			switch i {
+			case 9:
+				pre = append(pre, i)
+			case 10:
+				drain(pre, 1)
+				pre = []int{i % 10}
+			default:
+				drain(pre, 0)
+				pre = []int{i % 10}
+			}
+		}
+		drain(pre, 0)
+		close(c)
+	}()
+	return c
+}
+
+func spigot(a, r, q int, carry <-chan int) <-chan int {
+	c := make(chan int, 10)
+	go func() {
+		for cr := range carry {
+			a = 10*a + cr
+			c <- r * (a / q)
+			a %= q
+		}
+		close(c)
+	}()
+	return c
+}
+
+func zero(n int) <-chan int {
+	c := make(chan int)
+	go func() {
+		for i := 0; i < n; i++ {
+			c <- 0
+		}
+		close(c)
+	}()
+	return c
+}
+
+// Pi calculates n digits of Pi concurently
 /*
    1. Initialize: Let A = (2, 2, 2, 2,... ,2) be an array of length
       [10n/3]+1.
@@ -33,65 +83,15 @@ import "fmt"
       - release as true digits of π all but the current held predigit.
 
 */
-
-// alloc allocates initial slice of size n
-func alloc(n, v int) []int {
-	a := make([]int, n)
-	for i := range a {
-		a[i] = v
-	}
-	return a
-}
-
-// Pi returns n digits of Pi
 func Pi(n int) <-chan int {
-	c := make(chan int)
-	go func(n int) {
-		a := alloc(10*n/3+1, 2)
-		for k := 0; k < n; k++ {
-			a[len(a)-1] *= 10
-			for i := len(a) - 1; i > 0; i-- {
-				q := 2*i + 1
-				a[i-1] *= 10
-				a[i-1] += i * (a[i] / q)
-				a[i] %= q
-			}
-			c <- a[0] / 10
-			a[0] %= 10
-		}
-		close(c)
-	}(n + 1)
-	return predigit(c)
+	c := zero(n + 1)
+	for i := 10*n/3 + 1; i > 0; i-- {
+		c = spigot(2, i, 2*i+1, c)
+	}
+	return predigit(spigot(2, 1, 10, c))
 }
 
-func predigit(in <-chan int) <-chan int {
-	c := make(chan int)
-	go func() {
-		var pre []int
-		for i := range in {
-			switch i {
-			case 9:
-				pre = append(pre, i)
-			case 10:
-				for _, v := range pre {
-					c <- (v + 1) % 10
-				}
-				pre = []int{i % 10}
-			default:
-				for _, v := range pre {
-					c <- v
-				}
-				pre = []int{i}
-			}
-		}
-		for _, v := range pre {
-			c <- v
-		}
-		close(c)
-	}()
-	return c
-}
-
+// E calculates n digits of E concurently
 /*
    1. Initialize: Let the first digit be 2 and initialize an array
       A of length n + 1 to (1, 1, 1, . . . , 1).
@@ -106,27 +106,12 @@ func predigit(in <-chan int) <-chan int {
 
       Output the next digit: The final quotient is the next digit of e.
 */
-
-// E returns n digits of E
 func E(n int) <-chan int {
-	c := make(chan int)
-	go func(n int) {
-		a := alloc(n+1, 1)
-		a[0] = 2
-		for k := 0; k < n; k++ {
-			a[len(a)-1] *= 10
-			for i := len(a) - 1; i > 0; i-- {
-				q := i + 1
-				a[i-1] *= 10
-				a[i-1] += a[i] / q
-				a[i] %= q
-			}
-			c <- a[0] / 10
-			a[0] %= 10
-		}
-		close(c)
-	}(n + 1)
-	return c
+	c := zero(n + 1)
+	for i := n + 1; i > 0; i-- {
+		c = spigot(1, 1, i+1, c)
+	}
+	return spigot(2, 1, 10, c)
 }
 
 // Print digits from channel
