@@ -1,24 +1,26 @@
 // Package spigot implements Spigot algorithm for Pi and E
 package spigot
 
-func zero(n int) <-chan int {
-	c := make(chan int)
+const backlog = 10 // backlog value for buffered channel
+
+func spigot(a, r, q int, carry <-chan int) <-chan int {
+	c := make(chan int, backlog)
 	go func() {
-		for i := 0; i < n; i++ {
-			c <- 0
+		for cr := range carry {
+			a = 10*a + cr
+			c <- r * (a / q)
+			a %= q
 		}
 		close(c)
 	}()
 	return c
 }
 
-func spigot(a, r, q int, carry <-chan int) <-chan int {
-	c := make(chan int, 10)
+func zero(n int) <-chan int {
+	c := make(chan int)
 	go func() {
-		for cr := range carry {
-			a = 10*a + cr
-			c <- r * (a / q)
-			a %= q
+		for i := 0; i < n; i++ {
+			c <- 0
 		}
 		close(c)
 	}()
