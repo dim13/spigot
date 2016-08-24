@@ -3,6 +3,7 @@ package spigot
 
 const backlog = 10 // backlog value for buffered channel
 
+// spigot step
 func spigot(a, r, q int, carry <-chan int) <-chan int {
 	c := make(chan int, backlog)
 	go func() {
@@ -16,7 +17,8 @@ func spigot(a, r, q int, carry <-chan int) <-chan int {
 	return c
 }
 
-func zero(n int) <-chan int {
+// seed inital values (zero)
+func seed(n int) <-chan int {
 	c := make(chan int)
 	go func() {
 		for i := 0; i < n; i++ {
@@ -56,7 +58,7 @@ func zero(n int) <-chan int {
 //    - release as true digits of π all but the current held predigit.
 //
 func Pi(n int) <-chan int {
-	c := zero(n + 1)
+	c := seed(n + 1)
 	for i := 10*n/3 + 1; i > 0; i-- {
 		c = spigot(2, i, 2*i+1, c)
 	}
@@ -106,7 +108,7 @@ func predigit(in <-chan int) <-chan int {
 //    Output the next digit: The final quotient is the next digit of e.
 //
 func E(n int) <-chan int {
-	c := zero(n + 1)
+	c := seed(n + 1)
 	for i := n + 1; i > 0; i-- {
 		c = spigot(1, 1, i+1, c)
 	}
