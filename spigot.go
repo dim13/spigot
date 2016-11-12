@@ -17,7 +17,7 @@ func spigot(a, r, q int, carry <-chan int) <-chan int {
 	return c
 }
 
-// seed inital values (zero)
+// seed initial values (zero)
 func seed(n int) <-chan int {
 	c := make(chan int)
 	go func() {
