@@ -80,10 +80,10 @@ func predigit(in <-chan int) <-chan int {
 				pre = append(pre, i)
 			case 10:
 				drain(pre, 1)
-				pre = []int{i % 10}
+				pre = append(pre[:0], i%10)
 			default:
 				drain(pre, 0)
-				pre = []int{i % 10}
+				pre = append(pre[:0], i%10)
 			}
 		}
 		drain(pre, 0)
