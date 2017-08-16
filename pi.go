@@ -28,7 +28,11 @@ package spigot
 //     - increase all other held predigits by 1(9 becomes 0);
 //     - release as true digits of π all but the current held predigit.
 //
-func Pi(n int) <-chan int {
+func Pi(n int) string {
+	return format(pi(n))
+}
+
+func pi(n int) <-chan int {
 	c := seed(n + 1)
 	for i := 10*n/3 + 1; i > 0; i-- {
 		c = spigot(2, i, 2*i+1, c)

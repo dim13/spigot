@@ -1,6 +1,11 @@
 // Package spigot implements Spigot algorithm for Pi and E
 package spigot
 
+import (
+	"bytes"
+	"fmt"
+)
+
 // spigot step
 func spigot(a, r, q int, carry <-chan int) <-chan int {
 	c := make(chan int, 10)
@@ -25,4 +30,17 @@ func seed(n int) <-chan int {
 		close(c)
 	}()
 	return c
+}
+
+func format(c <-chan int) string {
+	buf := new(bytes.Buffer)
+	var decimalPoint bool
+	for v := range c {
+		fmt.Fprint(buf, v)
+		if !decimalPoint {
+			fmt.Fprint(buf, ".")
+			decimalPoint = true
+		}
+	}
+	return buf.String()
 }

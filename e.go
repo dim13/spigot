@@ -15,7 +15,11 @@ package spigot
 //
 //     Output the next digit: The final quotient is the next digit of e.
 //
-func E(n int) <-chan int {
+func E(n int) string {
+	return format(e(n))
+}
+
+func e(n int) <-chan int {
 	c := seed(n + 1)
 	for i := n + 1; i > 0; i-- {
 		c = spigot(1, 1, i+1, c)
