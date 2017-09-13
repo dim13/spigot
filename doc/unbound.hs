@@ -1,9 +1,8 @@
-stream :: (b->c) -> (b->c->Bool) -> (b->c->b) -> (b->a->b) ->
-          b -> [a] -> [c]
+stream :: (b->c) -> (b->c->Bool) -> (b->c->b) -> (b->a->b) -> b -> [a] -> [c]
 stream next safe prod cons z (x:xs)
   = if   safe z y
     then y : stream next safe prod cons (prod z y) (x:xs)
-    else stream next safe prod cons (cons z x) xs
+    else     stream next safe prod cons (cons z x) xs
       where y = next z
 
 type LFT = (Integer, Integer, Integer, Integer)
