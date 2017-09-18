@@ -1,8 +1,6 @@
 package spigot
 
 import (
-	"fmt"
-	"io"
 	"math/big"
 )
 
@@ -24,7 +22,7 @@ func comp(a, b LFT) LFT {
 	}
 }
 
-func PiStream(w io.Writer) error {
+func PiStream(c chan<- int64) {
 	var (
 		zero   = big.NewInt(0)
 		one    = big.NewInt(1)
@@ -38,9 +36,7 @@ func PiStream(w io.Writer) error {
 	k := big.NewInt(0)
 	for {
 		if y := extr(z, three); extr(z, four).Cmp(y) == 0 {
-			if _, err := fmt.Fprint(w, y); err != nil {
-				return err
-			}
+			c <- y.Int64()
 			z = comp(LFT{
 				new(big.Int).Set(ten),
 				new(big.Int).Mul(negten, y),
@@ -56,5 +52,4 @@ func PiStream(w io.Writer) error {
 			new(big.Int).Add(new(big.Int).Mul(two, k), one),
 		})
 	}
-	return nil
 }
