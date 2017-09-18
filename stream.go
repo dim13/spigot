@@ -24,7 +24,7 @@ func comp(a, b LFT) LFT {
 	}
 }
 
-func PiStream(w io.Writer) {
+func PiStream(w io.Writer) error {
 	var (
 		zero   = big.NewInt(0)
 		one    = big.NewInt(1)
@@ -38,7 +38,9 @@ func PiStream(w io.Writer) {
 	k := big.NewInt(0)
 	for {
 		if y := extr(z, three); extr(z, four).Cmp(y) == 0 {
-			fmt.Fprint(w, y)
+			if _, err := fmt.Fprint(w, y); err != nil {
+				return err
+			}
 			z = comp(LFT{
 				new(big.Int).Set(ten),
 				new(big.Int).Mul(negten, y),
@@ -54,4 +56,5 @@ func PiStream(w io.Writer) {
 			new(big.Int).Add(new(big.Int).Mul(two, k), one),
 		})
 	}
+	return nil
 }
