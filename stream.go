@@ -6,23 +6,21 @@ import (
 	"math/big"
 )
 
-type LFT struct {
-	q, r, s, t *big.Int
-}
+type LFT [4]*big.Int
 
 func extr(l LFT, x *big.Int) *big.Int {
 	return new(big.Int).Quo(
-		new(big.Int).Add(new(big.Int).Mul(l.q, x), l.r),
-		new(big.Int).Add(new(big.Int).Mul(l.s, x), l.t),
+		new(big.Int).Add(new(big.Int).Mul(l[0], x), l[1]),
+		new(big.Int).Add(new(big.Int).Mul(l[2], x), l[3]),
 	)
 }
 
 func comp(a, b LFT) LFT {
 	return LFT{
-		new(big.Int).Add(new(big.Int).Mul(a.q, b.q), new(big.Int).Mul(a.r, b.s)),
-		new(big.Int).Add(new(big.Int).Mul(a.q, b.r), new(big.Int).Mul(a.r, b.t)),
-		new(big.Int).Add(new(big.Int).Mul(a.s, b.q), new(big.Int).Mul(a.t, b.s)),
-		new(big.Int).Add(new(big.Int).Mul(a.s, b.r), new(big.Int).Mul(a.t, b.t)),
+		new(big.Int).Add(new(big.Int).Mul(a[0], b[0]), new(big.Int).Mul(a[1], b[2])),
+		new(big.Int).Add(new(big.Int).Mul(a[0], b[1]), new(big.Int).Mul(a[1], b[3])),
+		new(big.Int).Add(new(big.Int).Mul(a[2], b[0]), new(big.Int).Mul(a[3], b[2])),
+		new(big.Int).Add(new(big.Int).Mul(a[2], b[1]), new(big.Int).Mul(a[3], b[3])),
 	}
 }
 
