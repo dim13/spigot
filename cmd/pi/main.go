@@ -10,8 +10,5 @@ import (
 func main() {
 	N := flag.Int("n", 60, "number of digits")
 	flag.Parse()
-	for v := range spigot.Pi(*N) {
-		fmt.Print(v)
-	}
-	fmt.Println("")
+	fmt.Println(spigot.Pi(*N))
 }
