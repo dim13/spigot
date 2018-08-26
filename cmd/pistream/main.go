@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"dim13.org/spigot"
+	"github.com/dim13/spigot"
 )
 
 func main() {
