@@ -1,8 +1,6 @@
 package spigot
 
-import (
-	"math/big"
-)
+import "math/big"
 
 type LFT [4]*big.Int
 
