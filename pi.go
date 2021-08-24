@@ -1,6 +1,6 @@
 package spigot
 
-// Pi calculates n digits of Pi
+// Pi calculates n digits of π
 //
 //  1. Initialize: Let A = (2, 2, 2, 2,... ,2) be an array of length
 //     [10n/3]+1.
